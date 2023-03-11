@@ -70,10 +70,7 @@ namespace PRG1PR2223SA
             {
                 if (cursusResultaten[i] is null)
                 {
-                    CursusResultaat nieuwCursusResultaat = new CursusResultaat();
-                    cursusResultaten[i] = nieuwCursusResultaat;
-                    nieuwCursusResultaat.Naam = naam;
-                    Kwoteer((byte)i, resultaat);
+                    cursusResultaten[i] = new CursusResultaat(naam , resultaat); ;
                     legePlaatsGevonden = true;
                 }
             }
