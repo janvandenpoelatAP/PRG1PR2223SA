@@ -8,12 +8,28 @@ namespace PRG1PR2223SA
 {
     internal class Cursus
     {
+        private static int maxId = 1;
+        private int id;
+        public int Id
+        {
+            get
+            {
+                return id;
+            }
+        }
         public string Titel;
-        public Student[] Studenten = new Student[5];
+        public Student[] Studenten;
+        public Cursus(string titel, Student[] studenten)
+        {
+            this.Titel = titel;
+            this.Studenten = studenten;
+            this.id = Cursus.maxId;
+            Cursus.maxId++;
+        }
 
         public void ToonOverzicht()
         {
-            Console.WriteLine($"{Titel}");
+            Console.WriteLine($"{Titel} ({Id})");
             for (int i = 0; i < Studenten.Length; i++)
             {
                 if (Studenten[i] is not null)
@@ -25,14 +41,10 @@ namespace PRG1PR2223SA
         }
         public static void DemonstreerCursussen()
         {
-            Cursus communicatie = new Cursus();
-            communicatie.Titel = "Communicatie";
-            Cursus programmeren = new Cursus();
-            programmeren.Titel = "Programmeren";
-            Cursus webtechnologie = new Cursus();
-            webtechnologie.Titel = "Webtechnologie";
-            Cursus databanken = new Cursus();
-            databanken.Titel = "Databanken";
+            Cursus communicatie = new Cursus("Communicatie", new Student[2]);
+            Cursus programmeren = new Cursus("Programmeren", new Student[2]);
+            Cursus webtechnologie = new Cursus("Webtechnologie", new Student[2]);
+            Cursus databanken = new Cursus("Databanken", new Student[2]);
 
             Student student1 = new Student();
             student1.GeboorteDatum = new DateTime(2001, 1, 3);
