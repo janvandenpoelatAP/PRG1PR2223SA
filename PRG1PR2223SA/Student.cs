@@ -66,14 +66,14 @@ namespace SchoolAdmin
             // Opgelet, als student niet is ingeschreven in een cursus zal programma crashen. Probeer maar.
             return som / aantalCursussen;
         }
-        public void RegistreerVakInschrijving(string naam, byte? resultaat)
+        public void RegistreerVakInschrijving(Cursus cursus, byte? resultaat)
         {
             bool legePlaatsGevonden = false; // wordt true als lege plaats gevonden
             for (int i = 0; i < this.vakInschrijvingen.Length && !legePlaatsGevonden; i++)
             {
                 if (vakInschrijvingen[i] is null)
                 {
-                    vakInschrijvingen[i] = new VakInschrijving(naam , resultaat); ;
+                    vakInschrijvingen[i] = new VakInschrijving(cursus , resultaat); ;
                     legePlaatsGevonden = true;
                 }
             }
@@ -94,7 +94,7 @@ namespace SchoolAdmin
             {
                 if (this.vakInschrijvingen[i] is not null)
                 {
-                    Console.WriteLine($"{this.vakInschrijvingen[i].Naam}:\t{this.vakInschrijvingen[i].Resultaat}");
+                    Console.WriteLine($"{this.vakInschrijvingen[i].Cursus.Titel}:\t{this.vakInschrijvingen[i].Resultaat}");
                 }
             }
             Console.WriteLine($"Gemiddelde:\t{Gemiddelde():F1}\n");
@@ -107,26 +107,32 @@ namespace SchoolAdmin
             student.Geboortedatum = new DateTime(Convert.ToInt32(studentInfo[3]), Convert.ToInt32(studentInfo[2]), Convert.ToInt32(studentInfo[1]));
             for (int i = 4; i < studentInfo.Length; i += 2)
             {
-                student.RegistreerVakInschrijving(studentInfo[i], Convert.ToByte(studentInfo[i + 1]));
+                Cursus cursus = new Cursus(studentInfo[i]);
+                student.RegistreerVakInschrijving(cursus, Convert.ToByte(studentInfo[i + 1]));
             }
             return student;
         }
         public static void DemonstreerStudenten()
         {
+            Cursus communicatie = new Cursus("Communicatie", new Student[2]);
+            Cursus programmeren = new Cursus("Programmeren");
+            Cursus webtechnologie = new Cursus("Webtechnologie", new Student[5], 6);
+            Cursus databanken = new Cursus("Databanken", new Student[7], 5);
+
             Student student1 = new Student();
             student1.Naam = "Said Aziz";
             student1.Geboortedatum = new DateTime(2001, 1, 3);
-            student1.RegistreerVakInschrijving("Communicatie", 12);
-            student1.RegistreerVakInschrijving("Programmeren", null);
-            student1.RegistreerVakInschrijving("Webtechnologie", 13);
+            student1.RegistreerVakInschrijving(communicatie, 12);
+            student1.RegistreerVakInschrijving(programmeren, null);
+            student1.RegistreerVakInschrijving(webtechnologie, 13);
             student1.ToonOverzicht();
 
             Student student2 = new Student();
             student2.Naam = "Mieke Vermeulen";
             student2.Geboortedatum = new DateTime(1998, 1, 1);
-            student2.RegistreerVakInschrijving("Communicatie", 13);
-            student2.RegistreerVakInschrijving("Programmeren", null);
-            student2.RegistreerVakInschrijving("Databanken", 14);
+            student2.RegistreerVakInschrijving(communicatie, 13);
+            student2.RegistreerVakInschrijving(programmeren, null);
+            student2.RegistreerVakInschrijving(databanken, 14);
             student2.ToonOverzicht();
         }
         public static void DemonstreerStudentUitTekstFormaat()

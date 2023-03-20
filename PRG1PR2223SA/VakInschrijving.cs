@@ -8,12 +8,12 @@ namespace SchoolAdmin
 {
     internal class VakInschrijving
     {
-        private string naam;
-        public string Naam
+        private Cursus cursus;
+        public Cursus Cursus
         {
             get
             {
-                return naam;
+                return cursus;
             }
         }
         private byte? resultaat;
@@ -31,9 +31,9 @@ namespace SchoolAdmin
                 }
             }
         }
-        public VakInschrijving(string naam, byte? resultaat)
+        public VakInschrijving(Cursus cursus, byte? resultaat)
         {
-            this.naam = naam;
+            this.cursus = cursus;
             this.Resultaat = resultaat;
         }
     }
