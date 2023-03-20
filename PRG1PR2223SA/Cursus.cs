@@ -8,6 +8,7 @@ namespace SchoolAdmin
 {
     internal class Cursus
     {
+        public static Cursus[] AlleCursussen = new Cursus[10];
         private static int maxId = 1;
         private int id;
         public int Id
@@ -37,6 +38,7 @@ namespace SchoolAdmin
             this.Studenten = studenten;
             this.Studiepunten = studiepunten;
             this.id = Cursus.maxId;
+            RegistreerCursus(this);
             Cursus.maxId++;
         }
         public Cursus(string titel, Student[] studenten) : this(titel, studenten, 3)
@@ -56,6 +58,25 @@ namespace SchoolAdmin
                 }
             }
             Console.WriteLine();
+        }
+        public static void RegistreerCursus(Cursus cursus)
+        {
+            int? vrijePositie = null;
+            for (int i = 0; i < AlleCursussen.Length && vrijePositie is null; i++)
+            {
+                if (AlleCursussen[i] is null)
+                {
+                    vrijePositie = i;
+                }
+            }
+            if (vrijePositie is not null)
+            {
+                AlleCursussen[(int)vrijePositie] = cursus;
+            }
+            else
+            {
+                Console.WriteLine("Er zijn geen vrije posities meer");
+            }
         }
         public static void DemonstreerCursussen()
         {
