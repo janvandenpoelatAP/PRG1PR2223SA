@@ -5,7 +5,7 @@
         static void Main(string[] args)
         {
             int keuze = 0;
-            Console.WriteLine($"Wat wil je demonstreren?\n\t1. Studenten\n\t2. Cursussen\n\t3. Student Uit tekst\n");
+            Console.WriteLine($"Wat wil je demonstreren?\n\t1. Studenten\n\t2. Cursussen\n\t3. Student uit tekst\n");
             keuze = Convert.ToInt32(Console.ReadLine());
             if (keuze == 1)
             {

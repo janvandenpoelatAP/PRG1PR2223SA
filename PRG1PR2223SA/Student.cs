@@ -12,7 +12,7 @@ namespace SchoolAdmin
         public string Naam;
         public DateTime Geboortedatum;
         public uint Studentennummer;
-        private CursusResultaat[] cursusResultaten = new CursusResultaat[5];
+        private VakInschrijving[] vakInschrijvingen = new VakInschrijving[5];
 
         public string GenereerNaamkaarje()
         {
@@ -22,9 +22,9 @@ namespace SchoolAdmin
         {
             // Enkel de cursussen meenemen die zijn ingevuld (anders altijd 50!)
             byte werkbelasting = 0;
-            for (int i = 0; i < this.cursusResultaten.Length; i++)
+            for (int i = 0; i < this.vakInschrijvingen.Length; i++)
             {
-                if (this.cursusResultaten[i] is not null)
+                if (this.vakInschrijvingen[i] is not null)
                 {
                     werkbelasting += 10;
                 }
@@ -34,7 +34,7 @@ namespace SchoolAdmin
         public void Kwoteer(byte cursusIndex, byte behaaldCijfer)
         {
             // Controleer of index voldoet aan voorwaarden
-            if (cursusIndex < 0 || cursusIndex > this.cursusResultaten.Length)
+            if (cursusIndex < 0 || cursusIndex > this.vakInschrijvingen.Length)
             {
                 Console.WriteLine("Ongeldige cursus index!");
             }
@@ -45,32 +45,35 @@ namespace SchoolAdmin
             }
             else
             {
-                this.cursusResultaten[cursusIndex].Resultaat = behaaldCijfer;
+                this.vakInschrijvingen[cursusIndex].Resultaat = behaaldCijfer;
             } 
         }
         public double Gemiddelde()
         {
             int aantalCursussen = 0;
             double som = 0.0;
-            for (int i = 0; i < this.cursusResultaten.Length; i++)
+            for (int i = 0; i < this.vakInschrijvingen.Length; i++)
             {
-                if (this.cursusResultaten[i] is not null)
+                if (this.vakInschrijvingen[i] is not null)
                 {
-                    som += this.cursusResultaten[i].Resultaat;
-                    aantalCursussen++;
+                    if (vakInschrijvingen[i].Resultaat is not null)
+                    {
+                        som += (byte)this.vakInschrijvingen[i].Resultaat;
+                        aantalCursussen++;
+                    }
                 }
             }
             // Opgelet, als student niet is ingeschreven in een cursus zal programma crashen. Probeer maar.
             return som / aantalCursussen;
         }
-        public void RegistreerCursusResultaat(string naam, byte resultaat)
+        public void RegistreerVakInschrijving(string naam, byte? resultaat)
         {
             bool legePlaatsGevonden = false; // wordt true als lege plaats gevonden
-            for (int i = 0; i < this.cursusResultaten.Length && !legePlaatsGevonden; i++)
+            for (int i = 0; i < this.vakInschrijvingen.Length && !legePlaatsGevonden; i++)
             {
-                if (cursusResultaten[i] is null)
+                if (vakInschrijvingen[i] is null)
                 {
-                    cursusResultaten[i] = new CursusResultaat(naam , resultaat); ;
+                    vakInschrijvingen[i] = new VakInschrijving(naam , resultaat); ;
                     legePlaatsGevonden = true;
                 }
             }
@@ -87,11 +90,11 @@ namespace SchoolAdmin
             Console.WriteLine();
             Console.WriteLine("Cijferrapport");
             Console.WriteLine("*************");
-            for (int i = 0; i < this.cursusResultaten.Length; i++)
+            for (int i = 0; i < this.vakInschrijvingen.Length; i++)
             {
-                if (this.cursusResultaten[i] is not null)
+                if (this.vakInschrijvingen[i] is not null)
                 {
-                    Console.WriteLine($"{this.cursusResultaten[i].Naam}:\t{this.cursusResultaten[i].Resultaat}");
+                    Console.WriteLine($"{this.vakInschrijvingen[i].Naam}:\t{this.vakInschrijvingen[i].Resultaat}");
                 }
             }
             Console.WriteLine($"Gemiddelde:\t{Gemiddelde():F1}\n");
@@ -104,7 +107,7 @@ namespace SchoolAdmin
             student.Geboortedatum = new DateTime(Convert.ToInt32(studentInfo[3]), Convert.ToInt32(studentInfo[2]), Convert.ToInt32(studentInfo[1]));
             for (int i = 4; i < studentInfo.Length; i += 2)
             {
-                student.RegistreerCursusResultaat(studentInfo[i], Convert.ToByte(studentInfo[i + 1]));
+                student.RegistreerVakInschrijving(studentInfo[i], Convert.ToByte(studentInfo[i + 1]));
             }
             return student;
         }
@@ -113,17 +116,17 @@ namespace SchoolAdmin
             Student student1 = new Student();
             student1.Naam = "Said Aziz";
             student1.Geboortedatum = new DateTime(2001, 1, 3);
-            student1.RegistreerCursusResultaat("Communicatie", 12);
-            student1.RegistreerCursusResultaat("Programmeren", 15);
-            student1.RegistreerCursusResultaat("Webtechnologie", 13);
+            student1.RegistreerVakInschrijving("Communicatie", 12);
+            student1.RegistreerVakInschrijving("Programmeren", null);
+            student1.RegistreerVakInschrijving("Webtechnologie", 13);
             student1.ToonOverzicht();
 
             Student student2 = new Student();
             student2.Naam = "Mieke Vermeulen";
             student2.Geboortedatum = new DateTime(1998, 1, 1);
-            student2.RegistreerCursusResultaat("Communicatie", 13);
-            student2.RegistreerCursusResultaat("Programmeren", 16);
-            student2.RegistreerCursusResultaat("Webtechnologie", 14);
+            student2.RegistreerVakInschrijving("Communicatie", 13);
+            student2.RegistreerVakInschrijving("Programmeren", null);
+            student2.RegistreerVakInschrijving("Databanken", 14);
             student2.ToonOverzicht();
         }
         public static void DemonstreerStudentUitTekstFormaat()
