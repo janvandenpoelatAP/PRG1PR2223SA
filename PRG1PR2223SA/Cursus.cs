@@ -78,6 +78,17 @@ namespace SchoolAdmin
                 Console.WriteLine("Er zijn geen vrije posities meer");
             }
         }
+        public static Cursus ZoekCursusOpId(int id)
+        {
+            for (int i = 0; i < AlleCursussen.Length; i++)
+            {
+                if (AlleCursussen[i].Id == id)
+                {
+                    return AlleCursussen[i];
+                }
+            }
+            return null;
+        }
         public static void DemonstreerCursussen()
         {
             Cursus communicatie = new Cursus("Communicatie", new Student[2]);
@@ -105,6 +116,9 @@ namespace SchoolAdmin
             programmeren.ToonOverzicht();
             webtechnologie.ToonOverzicht();
             databanken.ToonOverzicht();
+
+            Cursus cursus = ZoekCursusOpId(3);
+            cursus.ToonOverzicht();
         }
     }
 }
