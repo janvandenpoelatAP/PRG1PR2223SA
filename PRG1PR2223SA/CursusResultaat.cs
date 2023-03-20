@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PRG1PR2223SA
+namespace SchoolAdmin
 {
     internal class CursusResultaat
     {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PRG1PR2223SA
+namespace SchoolAdmin
 {
     internal class Cursus
     {
@@ -65,12 +65,12 @@ namespace PRG1PR2223SA
             Cursus databanken = new Cursus("Databanken", new Student[7], 5);
 
             Student student1 = new Student();
-            student1.GeboorteDatum = new DateTime(2001, 1, 3);
+            student1.Geboortedatum = new DateTime(2001, 1, 3);
             student1.Naam = "Said Aziz";
 
 
             Student student2 = new Student();
-            student2.GeboorteDatum = new DateTime(2000, 2, 1);
+            student2.Geboortedatum = new DateTime(2000, 2, 1);
             student2.Naam = "Mieke Vermeulen";
 
             communicatie.Studenten[0] = student1;
