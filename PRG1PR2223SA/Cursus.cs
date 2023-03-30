@@ -50,11 +50,11 @@ namespace SchoolAdmin
         public void ToonOverzicht()
         {
             Console.WriteLine($"{Titel} ({Id} - {Studiepunten} stp)");
-            for (int i = 0; i < Studenten.Length; i++)
+            foreach (Student student in Studenten)
             {
-                if (Studenten[i] is not null)
+                if (student is not null)
                 {
-                    Console.WriteLine($"{Studenten[i].Naam}");
+                    Console.WriteLine($"{student.Naam}");
                 }
             }
             Console.WriteLine();

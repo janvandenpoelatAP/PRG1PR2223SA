@@ -43,11 +43,11 @@ namespace SchoolAdmin
         public void ToonOverzicht()
         {
             Console.WriteLine($"{Naam}:");
-            for (int i = 0; i < Cursussen.Length; i++)
+            foreach (Cursus cursus in Cursussen)
             {
-                if (Cursussen[i] is not null)
+                if (cursus is not null)
                 {
-                    Cursussen[i].ToonOverzicht();
+                    cursus.ToonOverzicht();
                 }
             }
         }

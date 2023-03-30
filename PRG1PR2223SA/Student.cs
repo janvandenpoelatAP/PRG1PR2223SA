@@ -90,11 +90,11 @@ namespace SchoolAdmin
             Console.WriteLine();
             Console.WriteLine("Cijferrapport");
             Console.WriteLine("*************");
-            for (int i = 0; i < this.vakInschrijvingen.Length; i++)
+            foreach (VakInschrijving vakInschrijving in vakInschrijvingen)
             {
-                if (this.vakInschrijvingen[i] is not null)
+                if (vakInschrijving is not null)
                 {
-                    Console.WriteLine($"{this.vakInschrijvingen[i].Cursus.Titel}:\t{this.vakInschrijvingen[i].Resultaat}");
+                    Console.WriteLine($"{vakInschrijving.Cursus.Titel}:\t{vakInschrijving.Resultaat}");
                 }
             }
             Console.WriteLine($"Gemiddelde:\t{Gemiddelde():F1}\n");
