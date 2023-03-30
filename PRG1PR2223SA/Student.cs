@@ -9,11 +9,24 @@ namespace SchoolAdmin
     internal class Student
     {
         public static uint Studententeller;
+        private static List<Student> alleStudenten = new List<Student>();
+        public static List<Student> AlleStudenten
+        {
+            get
+            {
+                return alleStudenten;
+            }
+        }
         public string Naam;
         public DateTime Geboortedatum;
         public uint Studentennummer;
         private VakInschrijving[] vakInschrijvingen = new VakInschrijving[5];
-
+        public Student(string naam, DateTime geboorteDatum)
+        {
+            Naam = naam;
+            Geboortedatum = geboorteDatum;
+            AlleStudenten.Add(this);
+        }
         public string GenereerNaamkaarje()
         {
             return $"{this.Naam} (STUDENT)";
@@ -102,9 +115,7 @@ namespace SchoolAdmin
         public static Student StudentUitTekstFormaat(string csvWaarde)
         {
             string[] studentInfo = csvWaarde.Split(';');
-            Student student = new Student();
-            student.Naam = studentInfo[0];
-            student.Geboortedatum = new DateTime(Convert.ToInt32(studentInfo[3]), Convert.ToInt32(studentInfo[2]), Convert.ToInt32(studentInfo[1]));
+            Student student = new Student(studentInfo[0], new DateTime(Convert.ToInt32(studentInfo[3]), Convert.ToInt32(studentInfo[2]), Convert.ToInt32(studentInfo[1])));
             for (int i = 4; i < studentInfo.Length; i += 2)
             {
                 Cursus cursus = new Cursus(studentInfo[i]);
@@ -119,17 +130,13 @@ namespace SchoolAdmin
             Cursus webtechnologie = new Cursus("Webtechnologie", new Student[5], 6);
             Cursus databanken = new Cursus("Databanken", new Student[7], 5);
 
-            Student student1 = new Student();
-            student1.Naam = "Said Aziz";
-            student1.Geboortedatum = new DateTime(2001, 1, 3);
+            Student student1 = new Student("Said Aziz", new DateTime(2001, 1, 3));
             student1.RegistreerVakInschrijving(communicatie, 12);
             student1.RegistreerVakInschrijving(programmeren, null);
             student1.RegistreerVakInschrijving(webtechnologie, 13);
             student1.ToonOverzicht();
 
-            Student student2 = new Student();
-            student2.Naam = "Mieke Vermeulen";
-            student2.Geboortedatum = new DateTime(1998, 1, 1);
+            Student student2 = new Student("Mieke Vermeulen", new DateTime(1998, 1, 1));
             student2.RegistreerVakInschrijving(communicatie, 13);
             student2.RegistreerVakInschrijving(programmeren, null);
             student2.RegistreerVakInschrijving(databanken, 14);

@@ -96,14 +96,8 @@ namespace SchoolAdmin
             Cursus webtechnologie = new Cursus("Webtechnologie", new Student[5], 6);
             Cursus databanken = new Cursus("Databanken", new Student[7], 5);
 
-            Student student1 = new Student();
-            student1.Geboortedatum = new DateTime(2001, 1, 3);
-            student1.Naam = "Said Aziz";
-
-
-            Student student2 = new Student();
-            student2.Geboortedatum = new DateTime(2000, 2, 1);
-            student2.Naam = "Mieke Vermeulen";
+            Student student1 = new Student("Said Aziz", new DateTime(2001, 1, 3));
+            Student student2 = new Student("Mieke Vermeulen", new DateTime(2000, 2, 1));
 
             communicatie.Studenten[0] = student1;
             communicatie.Studenten[1] = student2;
