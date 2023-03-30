@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,7 +9,14 @@ namespace SchoolAdmin
 {
     internal class Cursus
     {
-        public static Cursus[] AlleCursussen = new Cursus[10];
+        private static List<Cursus> alleCursussen = new List<Cursus>();
+        public static ImmutableList<Cursus> AlleCursussen
+        {
+            get
+            {
+                return alleCursussen.ToImmutableList();
+            }
+        }
         private static int maxId = 1;
         private int id;
         public int Id
@@ -19,7 +27,7 @@ namespace SchoolAdmin
             }
         }
         public string Titel;
-        public Student[] Studenten;
+        public List<Student> Studenten = new List<Student>();
         private byte studiepunten;
         public byte Studiepunten
         {
@@ -32,7 +40,7 @@ namespace SchoolAdmin
                 studiepunten = value;
             }
         }
-        public Cursus(string titel, Student[] studenten, byte studiepunten)
+        public Cursus(string titel, List<Student> studenten, byte studiepunten)
         {
             this.Titel = titel;
             this.Studenten = studenten;
@@ -41,10 +49,10 @@ namespace SchoolAdmin
             RegistreerCursus(this);
             Cursus.maxId++;
         }
-        public Cursus(string titel, Student[] studenten) : this(titel, studenten, 3)
+        public Cursus(string titel, List<Student> studenten) : this(titel, studenten, 3)
         {
         }
-        public Cursus(string titel) : this(titel, new Student[2])
+        public Cursus(string titel) : this(titel, new List<Student>())
         {
         }
         public void ToonOverzicht()
@@ -61,50 +69,35 @@ namespace SchoolAdmin
         }
         public static void RegistreerCursus(Cursus cursus)
         {
-            int? vrijePositie = null;
-            for (int i = 0; i < AlleCursussen.Length && vrijePositie is null; i++)
-            {
-                if (AlleCursussen[i] is null)
-                {
-                    vrijePositie = i;
-                }
-            }
-            if (vrijePositie is not null)
-            {
-                AlleCursussen[(int)vrijePositie] = cursus;
-            }
-            else
-            {
-                Console.WriteLine("Er zijn geen vrije posities meer");
-            }
+            alleCursussen.Add(cursus);
         }
         public static Cursus ZoekCursusOpId(int id)
         {
-            for (int i = 0; i < AlleCursussen.Length; i++)
+            foreach (Cursus cursus in AlleCursussen)
             {
-                if (AlleCursussen[i].Id == id)
+                if (cursus.Id == id)
                 {
-                    return AlleCursussen[i];
+                    return cursus;
                 }
             }
             return null;
         }
         public static void DemonstreerCursussen()
         {
-            Cursus communicatie = new Cursus("Communicatie", new Student[2]);
+            Cursus communicatie = new Cursus("Communicatie", new List<Student>());
             Cursus programmeren = new Cursus("Programmeren");
-            Cursus webtechnologie = new Cursus("Webtechnologie", new Student[5], 6);
-            Cursus databanken = new Cursus("Databanken", new Student[7], 5);
+            Cursus webtechnologie = new Cursus("Webtechnologie", new List<Student>(), 6);
+            Cursus databanken = new Cursus("Databanken", new List<Student>(), 5);
 
             Student student1 = new Student("Said Aziz", new DateTime(2001, 1, 3));
             Student student2 = new Student("Mieke Vermeulen", new DateTime(2000, 2, 1));
 
-            communicatie.Studenten[0] = student1;
-            communicatie.Studenten[1] = student2;
-            programmeren.Studenten[0] = student1;
-            programmeren.Studenten[1] = student2;
-            webtechnologie.Studenten[0] = student1;
-            databanken.Studenten[0] = student2;
+            communicatie.Studenten.Add(student1);
+            communicatie.Studenten.Add(student2);
+            programmeren.Studenten.Add(student1);
+            programmeren.Studenten.Add(student2);
+            webtechnologie.Studenten.Add(student1);
+            databanken.Studenten.Add(student2);
 
             communicatie.ToonOverzicht();
             programmeren.ToonOverzicht();

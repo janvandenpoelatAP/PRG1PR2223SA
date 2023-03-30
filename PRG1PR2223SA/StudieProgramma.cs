@@ -17,8 +17,8 @@ namespace SchoolAdmin
                 return naam;
             }
         }
-        private Cursus[] cursussen = new Cursus[20];
-        public Cursus[] Cursussen
+        private List<Cursus> cursussen = new List<Cursus>();
+        public List<Cursus> Cursussen
         {
             get
             {
@@ -75,9 +75,9 @@ namespace SchoolAdmin
             */
             Cursus communicatie = new Cursus("Communicatie");
             Cursus programmeren = new Cursus("Programmeren");
-            Cursus databanken = new Cursus("Databanken", new Student[7], 5);
-            Cursus[] cursussen1 = { communicatie, programmeren, databanken };
-            Cursus[] cursussen2 = { communicatie, programmeren, databanken };
+            Cursus databanken = new Cursus("Databanken", new List<Student>(), 5);
+            List<Cursus> cursussen1 = new List<Cursus> { communicatie, programmeren, databanken };
+            List<Cursus> cursussen2 = new List<Cursus> { communicatie, programmeren, databanken };
             StudieProgramma programmerenProgramma = new StudieProgramma("Programmeren");
             StudieProgramma snbProgramma = new StudieProgramma("Systeem- en netwerkbeheer");
             programmerenProgramma.cursussen = cursussen1;
