@@ -7,9 +7,8 @@ using System.Threading.Tasks;
 
 namespace SchoolAdmin
 {
-    internal class Student
+    internal class Student:Persoon
     {
-        public static uint Studententeller;
         private static List<Student> alleStudenten = new List<Student>();
         public static ImmutableList<Student> AlleStudenten
         {
@@ -18,28 +17,19 @@ namespace SchoolAdmin
                 return alleStudenten.ToImmutableList();
             }
         }
-        public string Naam;
-        public DateTime Geboortedatum;
-        public uint Studentennummer;
         private List<VakInschrijving> vakInschrijvingen = new List<VakInschrijving>();
-        public Student(string naam, DateTime geboorteDatum)
+        private Dictionary<DateTime, string> dossier;
+        public ImmutableDictionary<DateTime, string> Dossier
         {
-            Naam = naam;
-            Geboortedatum = geboorteDatum;
-            AlleStudenten.Add(this);
-        }
-        public string GenereerNaamkaarje()
-        {
-            return $"{this.Naam} (STUDENT)";
-        }
-        public byte BepaalWerkbelasting()
-        {
-            byte werkbelasting = 0;
-            foreach (VakInschrijving vakinschrijving in vakInschrijvingen)
+            get
             {
-                werkbelasting += 10;
+                return this.dossier.ToImmutableDictionary<DateTime, string>();
             }
-            return werkbelasting;
+        }
+        public Student(string naam, DateTime geboortedatum):base(naam, geboortedatum)
+        {
+            this.dossier = new Dictionary<DateTime, string>();
+            AlleStudenten.Add(this);
         }
         public void Kwoteer(byte cursusIndex, byte behaaldCijfer)
         {
@@ -76,6 +66,19 @@ namespace SchoolAdmin
         public void RegistreerVakInschrijving(Cursus cursus, byte? resultaat)
         {
             vakInschrijvingen.Add(new VakInschrijving(cursus, resultaat));
+        }
+        public override double BepaalWerkbelasting()
+        {
+            double werkbelasting = 0.0;
+            foreach (VakInschrijving vakinschrijving in vakInschrijvingen)
+            {
+                werkbelasting += 10;
+            }
+            return werkbelasting;
+        }
+        public override string GenereerNaamkaartje()
+        {
+            return $"{Naam} (STUDENT)";
         }
         public void ToonOverzicht()
         {
