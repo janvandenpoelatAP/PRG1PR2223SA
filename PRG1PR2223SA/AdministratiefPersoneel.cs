@@ -9,17 +9,23 @@ namespace SchoolAdmin
 {
     public class AdministratiefPersoneel:Personeel
     {
-        private static List<AdministratiefPersoneel> alleAdministratiefPersoneel = new List<AdministratiefPersoneel>();
         public static ImmutableList<AdministratiefPersoneel> AlleAdministratiefPersoneel
         {
             get
             {
-                return alleAdministratiefPersoneel.ToImmutableList<AdministratiefPersoneel>();
+                var enkelAdministratiefPersoneel = new List<AdministratiefPersoneel>();
+                foreach (var persoon in Persoon.AllePersonen)
+                {
+                    if (persoon is AdministratiefPersoneel)
+                    {
+                        enkelAdministratiefPersoneel.Add((AdministratiefPersoneel)persoon);
+                    }
+                }
+                return enkelAdministratiefPersoneel.ToImmutableList<AdministratiefPersoneel>();
             }
         }
         public AdministratiefPersoneel(string naam, DateTime geboortedatum, Dictionary<string, byte> taken) : base(naam, geboortedatum, taken)
         {
-            alleAdministratiefPersoneel.Add(this);
         }
         public override uint BerekenSalaris()
         {

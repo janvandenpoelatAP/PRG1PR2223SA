@@ -9,12 +9,19 @@ namespace SchoolAdmin
 {
     public abstract class Personeel:Persoon
     {
-        private static List<Personeel> allePersoneel = new List<Personeel>();
         public static ImmutableList<Personeel> AllePersoneel
         {
             get
             {
-                return allePersoneel.ToImmutableList<Personeel>();
+                var enkelPersoneel = new List<Personeel>();
+                foreach (var persoon in Persoon.AllePersonen)
+                {
+                    if (persoon is Personeel)
+                    {
+                        enkelPersoneel.Add((Personeel)persoon);
+                    }
+                }
+                return enkelPersoneel.ToImmutableList<Personeel>();
             }
         }
         private byte ancienniteit;
@@ -53,7 +60,6 @@ namespace SchoolAdmin
                     this.taken.Add(paar.Key, paar.Value);
                 }
             }
-            allePersoneel.Add(this);
         }
         public abstract uint BerekenSalaris();
     }

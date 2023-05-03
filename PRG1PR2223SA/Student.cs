@@ -9,12 +9,19 @@ namespace SchoolAdmin
 {
     internal class Student:Persoon
     {
-        private static List<Student> alleStudenten = new List<Student>();
         public static ImmutableList<Student> AlleStudenten
         {
             get
             {
-                return alleStudenten.ToImmutableList();
+                var enkelStudenten = new List<Student>();
+                foreach (var persoon in Persoon.AllePersonen)
+                {
+                    if (persoon is Student)
+                    {
+                        enkelStudenten.Add((Student)persoon);
+                    }
+                }
+                return enkelStudenten.ToImmutableList<Student>();
             }
         }
         private List<VakInschrijving> vakInschrijvingen = new List<VakInschrijving>();
