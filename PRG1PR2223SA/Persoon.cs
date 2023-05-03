@@ -41,7 +41,19 @@ namespace SchoolAdmin
             get { return naam; }
             set { naam = value; }
         }
-
+        public byte Leeftijd
+        {
+            get
+            {
+                var nu = DateTime.Now;
+                var verschilJaren = nu.Year - this.Geboortedatum.Year;
+                if (nu.Month < this.Geboortedatum.Month || nu.Month == this.Geboortedatum.Month && nu.Day < this.Geboortedatum.Day)
+                {
+                    verschilJaren--;
+                }
+                return Convert.ToByte(verschilJaren);
+            }
+        }
         public Persoon(string naam, DateTime geboortedatum)
         {
             this.naam = naam;
@@ -69,6 +81,13 @@ namespace SchoolAdmin
         public override int GetHashCode()
         {
             return this.Id.GetHashCode();
+        }
+        public override string ToString()
+        {
+            return @$"Persoon
+-------
+Naam: {this.Naam}
+Leeftijd: {this.Leeftijd}";
         }
         public abstract double BepaalWerkbelasting();
         public abstract string GenereerNaamkaartje();

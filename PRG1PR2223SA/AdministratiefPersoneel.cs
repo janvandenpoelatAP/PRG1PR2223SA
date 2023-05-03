@@ -41,6 +41,10 @@ namespace SchoolAdmin
         {
             return $@"{this.Naam} (ADMINISTRATIE)";
         }
+        public override string ToString()
+        {
+            return $"{base.ToString()}\nMeerbepaald, administratief personeel";
+        }
         public static void DemonstreerAdministratiefPersoneel()
         {
             var taken = new Dictionary<string, byte>();
