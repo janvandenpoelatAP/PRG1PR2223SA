@@ -67,6 +67,26 @@ namespace SchoolAdmin
             }
             Console.WriteLine();
         }
+        public override bool Equals(object obj)
+        {
+            if (obj is null)
+            {
+                return false;
+            }
+            if (obj is Cursus)
+            {
+                var objCursus = (Cursus)obj;
+                return objCursus.Id == this.Id;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        public override int GetHashCode()
+        {
+            return this.Id.GetHashCode();
+        }
         public static void RegistreerCursus(Cursus cursus)
         {
             alleCursussen.Add(cursus);
