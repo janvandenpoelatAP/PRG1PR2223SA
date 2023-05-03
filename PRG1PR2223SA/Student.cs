@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SchoolAdmin
 {
-    internal class Student:Persoon
+    public class Student:Persoon
     {
         public static ImmutableList<Student> AlleStudenten
         {
@@ -24,7 +24,33 @@ namespace SchoolAdmin
                 return enkelStudenten.ToImmutableList<Student>();
             }
         }
-        private List<VakInschrijving> vakInschrijvingen = new List<VakInschrijving>();
+        public ImmutableList<VakInschrijving> VakInschrijvingen
+        {
+            get
+            {
+                var enkelVoorDezeStudent = new List<VakInschrijving>();
+                foreach (var inschrijving in VakInschrijving.AlleVakInschrijvingen)
+                {
+                    if (inschrijving.Student.Equals(this))
+                    {
+                        enkelVoorDezeStudent.Add(inschrijving);
+                    }
+                }
+                return enkelVoorDezeStudent.ToImmutableList<VakInschrijving>();
+            }
+        }
+        public ImmutableList<Cursus> Cursussen
+        {
+            get
+            {
+                var cursussen = new List<Cursus>();
+                foreach (var inschrijving in this.VakInschrijvingen)
+                {
+                    cursussen.Add(inschrijving.Cursus);
+                }
+                return cursussen.ToImmutableList<Cursus>();
+            }
+        }
         private Dictionary<DateTime, string> dossier;
         public ImmutableDictionary<DateTime, string> Dossier
         {
@@ -41,7 +67,7 @@ namespace SchoolAdmin
         public void Kwoteer(byte cursusIndex, byte behaaldCijfer)
         {
             // Controleer of index voldoet aan voorwaarden
-            if (cursusIndex < 0 || cursusIndex > this.vakInschrijvingen.Count)
+            if (cursusIndex < 0 || cursusIndex > this.VakInschrijvingen.Count)
             {
                 Console.WriteLine("Ongeldige cursus index!");
             }
@@ -52,14 +78,14 @@ namespace SchoolAdmin
             }
             else
             {
-                this.vakInschrijvingen[cursusIndex].Resultaat = behaaldCijfer;
+                this.VakInschrijvingen[cursusIndex].Resultaat = behaaldCijfer;
             } 
         }
         public double Gemiddelde()
         {
             int aantalCursussen = 0;
             double som = 0.0;
-            foreach (VakInschrijving vakInschrijving in vakInschrijvingen)
+            foreach (VakInschrijving vakInschrijving in VakInschrijvingen)
             {
                 if (vakInschrijving.Resultaat is not null)
                 {
@@ -72,12 +98,12 @@ namespace SchoolAdmin
         }
         public void RegistreerVakInschrijving(Cursus cursus, byte? resultaat)
         {
-            vakInschrijvingen.Add(new VakInschrijving(cursus, resultaat));
+            VakInschrijvingen.Add(new VakInschrijving(this, cursus, resultaat));
         }
         public override double BepaalWerkbelasting()
         {
             double werkbelasting = 0.0;
-            foreach (VakInschrijving vakinschrijving in vakInschrijvingen)
+            foreach (VakInschrijving vakinschrijving in VakInschrijvingen)
             {
                 werkbelasting += 10;
             }
@@ -86,6 +112,10 @@ namespace SchoolAdmin
         public override string GenereerNaamkaartje()
         {
             return $"{Naam} (STUDENT)";
+        }
+        public void RegistreerCursusResultaat(Cursus cursus, byte? behaaldResultaat)
+        {
+            new VakInschrijving(this, cursus, behaaldResultaat);
         }
         public void ToonOverzicht()
         {
@@ -99,7 +129,7 @@ namespace SchoolAdmin
             Console.WriteLine();
             Console.WriteLine("Cijferrapport");
             Console.WriteLine("*************");
-            foreach (VakInschrijving vakInschrijving in vakInschrijvingen)
+            foreach (VakInschrijving vakInschrijving in VakInschrijvingen)
             {
                 if (vakInschrijving is not null)
                 {
@@ -121,10 +151,10 @@ namespace SchoolAdmin
         }
         public static void DemonstreerStudenten()
         {
-            Cursus communicatie = new Cursus("Communicatie", new List<Student>());
+            Cursus communicatie = new Cursus("Communicatie");
             Cursus programmeren = new Cursus("Programmeren");
-            Cursus webtechnologie = new Cursus("Webtechnologie", new List<Student>(), 6);
-            Cursus databanken = new Cursus("Databanken", new List<Student>(), 5);
+            Cursus webtechnologie = new Cursus("Webtechnologie", 6);
+            Cursus databanken = new Cursus("Databanken", 5);
 
             Student student1 = new Student("Said Aziz", new DateTime(2001, 1, 3));
             student1.RegistreerVakInschrijving(communicatie, 12);

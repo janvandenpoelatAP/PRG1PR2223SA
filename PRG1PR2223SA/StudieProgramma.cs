@@ -75,7 +75,7 @@ namespace SchoolAdmin
             */
             Cursus communicatie = new Cursus("Communicatie");
             Cursus programmeren = new Cursus("Programmeren");
-            Cursus databanken = new Cursus("Databanken", new List<Student>(), 5);
+            Cursus databanken = new Cursus("Databanken", 5);
             List<Cursus> cursussen1 = new List<Cursus> { communicatie, programmeren, databanken };
             List<Cursus> cursussen2 = new List<Cursus> { communicatie, programmeren, databanken };
             StudieProgramma programmerenProgramma = new StudieProgramma("Programmeren");
