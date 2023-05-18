@@ -68,11 +68,18 @@ namespace SchoolAdmin
         }
         public Cursus(string titel, byte studiepunten)
         {
-            this.Titel = titel;
-            this.Studiepunten = studiepunten;
-            this.id = Cursus.maxId;
-            RegistreerCursus(this);
-            Cursus.maxId++;
+            try
+            {
+                this.Titel = titel;
+                this.id = Cursus.maxId;
+                this.Studiepunten = studiepunten;
+                RegistreerCursus(this);
+                Cursus.maxId++;
+            }
+            catch (DuplicateDataException ex)
+            {
+                Console.WriteLine($"{ex.Message} {((Cursus)ex.Waarde2).Id}");
+            }
         }
         public Cursus(string titel, List<Student> studenten) : this(titel, 3)
         {
@@ -114,6 +121,11 @@ namespace SchoolAdmin
         }
         public static void RegistreerCursus(Cursus cursus)
         {
+            Cursus cursusBestaand = ZoekCursusOpTitel(cursus.Titel);
+            if (cursusBestaand is not null)
+            {
+                throw new DuplicateDataException("Nieuwe cursus heeft dezelfde naam als een bestaande cursus: ", cursus, cursusBestaand);
+            }
             alleCursussen.Add(cursus);
         }
         public static Cursus ZoekCursusOpId(int id)
@@ -121,6 +133,17 @@ namespace SchoolAdmin
             foreach (Cursus cursus in AlleCursussen)
             {
                 if (cursus.Id == id)
+                {
+                    return cursus;
+                }
+            }
+            return null;
+        }
+        public static Cursus ZoekCursusOpTitel(string titel)
+        {
+            foreach (Cursus cursus in AlleCursussen)
+            {
+                if (cursus.Titel == titel)
                 {
                     return cursus;
                 }
