@@ -41,7 +41,7 @@ namespace SchoolAdmin
                 }
             }
         }
-        public static void DemonstreerStudieProgrmma()
+        public static void DemonstreerStudieProgramma()
         {
             /* Stap 1
             Cursus communicatie = new Cursus("Communicatie");

@@ -153,5 +153,13 @@ namespace SchoolAdmin
             Cursus cursus = ZoekCursusOpId(3);
             cursus.ToonOverzicht();
         }
+        public static void LeesVanafCommandLine()
+        {
+            Console.WriteLine("Titel van de cursus?");
+            var titel = Console.ReadLine();
+            Console.WriteLine("Aantal studiepunten?");
+            byte aantal = Convert.ToByte(Console.ReadLine());
+            new Cursus(titel, aantal);
+        }
     }
 }

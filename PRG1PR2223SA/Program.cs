@@ -4,32 +4,56 @@
     {
         static void Main(string[] args)
         {
-            int keuze = 0;
-            Console.WriteLine($"Wat wil je demonstreren?\n\t1. Studenten\n\t2. Cursussen\n\t3. Student Uit tekst\n\t4. StudieProgramma\n\t5. Administratief Personeel\n\t6. Lector\n");
-            keuze = Convert.ToInt32(Console.ReadLine());
-            if (keuze == 1)
+            while (true)
             {
-                Student.DemonstreerStudenten();
-            }
-            else if (keuze == 2)
-            {
-                Cursus.DemonstreerCursussen();
-            }
-            else if (keuze == 3)
-            {
-                Student.DemonstreerStudentUitTekstFormaat();
-            }
-            else if (keuze == 4)
-            {
-                StudieProgramma.DemonstreerStudieProgrmma();
-            }
-            else if (keuze == 5)
-            {
-                AdministratiefPersoneel.DemonstreerAdministratiefPersoneel();
-            }
-            else if (keuze == 6)
-            {
-                Lector.DemonstreerLectoren();
+                Console.WriteLine("Wat wil je doen?");
+                Console.WriteLine("1. DemonstreerStudenten uitvoeren");
+                Console.WriteLine("2. DemonstreerCursussen uitvoeren");
+                Console.WriteLine("3. DemonstreerStudentUitTekstFormaat uitvoeren");
+                Console.WriteLine("4. DemonstreerStudieProgramma uitvoeren");
+                Console.WriteLine("5. DemonstreerAdministratiefPersoneel uitvoeren");
+                Console.WriteLine("6. DemonstreerLectoren uitvoeren");
+                Console.WriteLine("7. Student toevoegen");
+                Console.WriteLine("8. Cursus toevoegen");
+                Console.WriteLine("9. VakInschrijving toevoegen");
+                Console.WriteLine("10. Inschrijvingsgegevens tonen");
+                int antwoord = Convert.ToInt32(Console.ReadLine());
+                switch (antwoord)
+                {
+                    case 1:
+                        Student.DemonstreerStudenten();
+                        break;
+                    case 2:
+                        Cursus.DemonstreerCursussen();
+                        break;
+                    case 3:
+                        Student.DemonstreerStudentUitTekstFormaat();
+                        break;
+                    case 4:
+                        StudieProgramma.DemonstreerStudieProgramma();
+                        break;
+                    case 5:
+                        AdministratiefPersoneel.DemonstreerAdministratiefPersoneel();
+                        break;
+                    case 6:
+                        Lector.DemonstreerLectoren();
+                        break;
+                    case 7:
+                        Student.LeesVanafCommandLine();
+                        break;
+                    case 8:
+                        Cursus.LeesVanafCommandLine();
+                        break;
+                    case 9:
+                        VakInschrijving.LeesVanafCommandLine();
+                        break;
+                    case 10:
+                        VakInschrijving.ToonInschrijvingsGegevens();
+                        break;
+                    default:
+                        Console.WriteLine("Ongeldig antwoord.");
+                        break;
+                }
             }
         }
     }

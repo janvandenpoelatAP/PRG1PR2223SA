@@ -138,6 +138,10 @@ namespace SchoolAdmin
             }
             Console.WriteLine($"Gemiddelde:\t{Gemiddelde():F1}\n");
         }
+        public override string ToString()
+        {
+            return $"{base.ToString()}\nMeerbepaald, student";
+        }
         public static Student StudentUitTekstFormaat(string csvWaarde)
         {
             string[] studentInfo = csvWaarde.Split(';');
@@ -174,6 +178,14 @@ namespace SchoolAdmin
             string csvWaarde = Console.ReadLine();
             Student student = Student.StudentUitTekstFormaat(csvWaarde);
             student.ToonOverzicht();
+        }
+        public static void LeesVanafCommandLine()
+        {
+            Console.WriteLine("Naam van de student?");
+            var naam = Console.ReadLine();
+            Console.WriteLine("Geboortedatum van de student?");
+            var geboorteDatum = Convert.ToDateTime(Console.ReadLine());
+            new Student(naam, geboorteDatum);
         }
     }
 }
