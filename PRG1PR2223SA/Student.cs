@@ -195,6 +195,11 @@ namespace SchoolAdmin
             student2.RegistreerVakInschrijving(programmeren, null);
             student2.RegistreerVakInschrijving(databanken, 14);
             student2.ToonOverzicht();
+
+            foreach (var student in AlleStudenten)
+            {
+                student.ToCsv();
+            }
         }
         public static void DemonstreerStudentUitTekstFormaat()
         {
