@@ -58,6 +58,10 @@ namespace SchoolAdmin
             {
                 throw new ArgumentException($"Student {student.Naam} is al ingeschreven voor cursus {cursus.Titel}");
             }
+            if (AantalInschrijvingenVoorCursus(cursus) >= 20)
+            {
+                throw new CapaciteitOverschredenException($"De cursus {cursus.Titel} is volzet");
+            }
             this.student = student;
             this.cursus = cursus;
             this.Resultaat = resultaat;
@@ -73,6 +77,18 @@ namespace SchoolAdmin
                 }
             }
             return null;
+        }
+        public static uint AantalInschrijvingenVoorCursus(Cursus cursus)
+        {
+            uint aantal = 0;
+            foreach (VakInschrijving vakInschrijving in VakInschrijving.AlleVakInschrijvingen)
+            {
+                if (vakInschrijving.Cursus == cursus)
+                {
+                    aantal++;
+                }
+            }
+            return aantal;
         }
         public static void LeesVanafCommandLine()
         {
@@ -124,6 +140,10 @@ namespace SchoolAdmin
                     new VakInschrijving(gekozenStudent, gekozenCursus, resultaat);
                 }
                 catch (ArgumentException ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+                catch (CapaciteitOverschredenException ex)
                 {
                     Console.WriteLine(ex.Message);
                 }
