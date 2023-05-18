@@ -1,6 +1,7 @@
 ﻿using SchoolAdmin;
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,23 +18,12 @@ namespace SchoolAdmin
                 return naam;
             }
         }
-        private List<Cursus> cursussen = new List<Cursus>();
-        public List<Cursus> Cursussen
+        private Dictionary<Cursus, byte> cursussen = new Dictionary<Cursus, byte>();
+        public ImmutableList<Cursus> Cursussen
         {
             get
             {
-                return cursussen;
-            }
-            set
-            {
-                if (value is null)
-                {
-                    Console.WriteLine("Null is niet toegelaten");
-                }
-                else
-                {
-                    cursussen = value;
-                }
+                return this.cursussen.Keys.ToImmutableList<Cursus>();
             }
         }
         public StudieProgramma(string naam)
@@ -76,18 +66,19 @@ namespace SchoolAdmin
             Cursus communicatie = new Cursus("Communicatie");
             Cursus programmeren = new Cursus("Programmeren");
             Cursus databanken = new Cursus("Databanken", 5);
-            List<Cursus> cursussen1 = new List<Cursus> { communicatie, programmeren, databanken };
-            List<Cursus> cursussen2 = new List<Cursus> { communicatie, programmeren, databanken };
+            Cursus scripting = new Cursus("Scripting");
+            var cursussen1Dictionary = new Dictionary<Cursus, byte>();
+            cursussen1Dictionary.Add(communicatie, 1);
+            cursussen1Dictionary.Add(programmeren, 1);
+            cursussen1Dictionary.Add(databanken, 1);
+            // gewoon een andere schrijfwijze voor dictionaries
+            var cursussen2Dictionary = new Dictionary<Cursus, byte> { { communicatie, 2 }, { scripting, 1 }, { databanken, 1 } };
             StudieProgramma programmerenProgramma = new StudieProgramma("Programmeren");
             StudieProgramma snbProgramma = new StudieProgramma("Systeem- en netwerkbeheer");
-            programmerenProgramma.cursussen = cursussen1;
-            snbProgramma.cursussen = cursussen2;
+            programmerenProgramma.cursussen = cursussen1Dictionary;
+            snbProgramma.cursussen = cursussen2Dictionary;
             // later wordt Databanken geschrapt uit het programma SNB
-            // voor SNB wordt bovendien Programmeren hernoemd naar Scripting
-            snbProgramma.cursussen[2] = null;
-            //snbProgramma.cursussen[1].Titel = "Scripting";
-            Cursus scripting = new Cursus("Scripting");
-            snbProgramma.cursussen[1] = scripting; ;
+            snbProgramma.cursussen.Remove(databanken);
             programmerenProgramma.ToonOverzicht();
             snbProgramma.ToonOverzicht();
         }
