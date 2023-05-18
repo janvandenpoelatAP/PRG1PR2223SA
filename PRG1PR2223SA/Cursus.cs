@@ -119,6 +119,10 @@ namespace SchoolAdmin
         {
             return this.Id.GetHashCode();
         }
+        public override string ToString()
+        {
+            return $"Cursus {this.Titel} heeft {this.Studiepunten} studiepunten";
+        }
         public static void RegistreerCursus(Cursus cursus)
         {
             Cursus cursusBestaand = ZoekCursusOpTitel(cursus.Titel);
@@ -149,6 +153,30 @@ namespace SchoolAdmin
                 }
             }
             return null;
+        }
+        public static void ToonCursussen()
+        {
+            Console.WriteLine("Toon cursussen in:");
+            Console.WriteLine("1. Stijgende alfabetische volgorde");
+            Console.WriteLine("2. Stijgende volgorde van studiepunten");
+            int keuze = Convert.ToInt32(Console.ReadLine());
+            IComparer<Cursus> comparer = null;
+            if (keuze == 1)
+            {
+                comparer = new CursusVolgensTitelOplopendComparer();
+            }
+            else if (keuze == 2)
+            {
+                comparer = new CursusVolgensStudiepuntenOplopendComparer();
+            }
+            else
+            {
+            }
+            ImmutableList<Cursus> alleCursussenGesorteerd = AlleCursussen.Sort(comparer);
+            foreach (Cursus cursus in alleCursussenGesorteerd)
+            {
+                Console.WriteLine(cursus.ToString());
+            }
         }
         public static void DemonstreerCursussen()
         {

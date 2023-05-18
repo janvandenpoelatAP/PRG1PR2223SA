@@ -142,6 +142,30 @@ namespace SchoolAdmin
         {
             return $"{base.ToString()}\nMeerbepaald, student";
         }
+        public static void ToonStudenten()
+        {
+            Console.WriteLine("Toon studenten in:");
+            Console.WriteLine("1. Stijgende alfabetische volgorde");
+            Console.WriteLine("2. Dalende alfabetische volgorde");
+            int keuze = Convert.ToInt32(Console.ReadLine());
+            IComparer<Student> comparer = null;
+            if (keuze == 1)
+            {
+                comparer = new StudentVolgensNaamOplopendComparer();
+            }
+            else if (keuze == 2)
+            {
+                comparer = new StudentVolgensNaamAflopendComparer();
+            }
+            else
+            {
+            }
+            ImmutableList<Student> alleStudentenGesorteerd = AlleStudenten.Sort(comparer);
+            foreach (Student student in alleStudentenGesorteerd)
+            {
+                Console.WriteLine(student.ToString());
+            }
+        }
         public static Student StudentUitTekstFormaat(string csvWaarde)
         {
             string[] studentInfo = csvWaarde.Split(';');
