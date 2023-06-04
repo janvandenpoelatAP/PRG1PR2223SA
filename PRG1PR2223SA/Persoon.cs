@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace SchoolAdmin
 {
-    public abstract class Persoon
+    public abstract class Persoon : ICSVSerializable
     {
         private static List<Persoon> allePersonen = new List<Persoon>();
         public static ImmutableList<Persoon> AllePersonen
@@ -54,6 +55,13 @@ namespace SchoolAdmin
                 return Convert.ToByte(verschilJaren);
             }
         }
+        public virtual string CSVPersoonsGegevens
+        {
+            get
+            {
+                return $"{Id};\"{Naam}\";{Geboortedatum.ToString(new CultureInfo("nl-BE"))}";
+            }
+        }
         public Persoon(string naam, DateTime geboortedatum)
         {
             this.naam = naam;
@@ -91,5 +99,6 @@ Leeftijd: {this.Leeftijd}";
         }
         public abstract double BepaalWerkbelasting();
         public abstract string GenereerNaamkaartje();
+        public abstract string ToCSV();
     }
 }

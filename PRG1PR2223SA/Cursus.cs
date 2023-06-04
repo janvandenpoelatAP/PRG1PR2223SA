@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SchoolAdmin
 {
-    public class Cursus
+    public class Cursus : ICSVSerializable
     {
         private static List<Cursus> alleCursussen = new List<Cursus>();
         public static ImmutableList<Cursus> AlleCursussen
@@ -81,10 +81,7 @@ namespace SchoolAdmin
                 Console.WriteLine($"{ex.Message} {((Cursus)ex.Waarde2).Id}");
             }
         }
-        public Cursus(string titel, List<Student> studenten) : this(titel, 3)
-        {
-        }
-        public Cursus(string titel) : this(titel, new List<Student>())
+        public Cursus(string titel) : this(titel, 3)
         {
         }
         public void ToonOverzicht()
@@ -118,6 +115,10 @@ namespace SchoolAdmin
         public override int GetHashCode()
         {
             return this.Id.GetHashCode();
+        }
+        public string ToCSV()
+        {
+            return $"Cursus;{this.Id};\"{this.Titel}\";{this.Studiepunten}";
         }
         public override string ToString()
         {

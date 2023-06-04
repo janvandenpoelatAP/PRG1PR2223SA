@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SchoolAdmin
 {
-    public class Student:Persoon
+    public class Student : Persoon
     {
         public static ImmutableList<Student> AlleStudenten
         {
@@ -138,6 +138,15 @@ namespace SchoolAdmin
             }
             Console.WriteLine($"Gemiddelde:\t{Gemiddelde():F1}\n");
         }
+        public override string ToCSV()
+        {
+            string uitkomst = $"Student;{CSVPersoonsGegevens}";
+            foreach (var item in Dossier)
+            {
+                uitkomst += $";{item.Key};{item.Value}";
+            }
+            return uitkomst;
+        }
         public override string ToString()
         {
             return $"{base.ToString()}\nMeerbepaald, student";
@@ -198,7 +207,7 @@ namespace SchoolAdmin
 
             foreach (var student in AlleStudenten)
             {
-                student.ToCsv();
+                student.ToCSV();
             }
         }
         public static void DemonstreerStudentUitTekstFormaat()
